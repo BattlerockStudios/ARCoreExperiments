@@ -6,5 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/AR_TowerDefense/Scenes/Test.unity
-    guid: 69065027c00bb5646a8d05171db184db
+    path: Assets/AR_Pong/Scenes/PongLauncher.unity
+    guid: 522f256d6a884454d84b423a012bfc3e
+  - enabled: 1
+    path: Assets/AR_Pong/Scenes/PongGame.unity
+    guid: 0cb9a50d533b5fd4f840a5b6e8dcd829

@@ -1,5 +1,7 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="HelloARController.cs" company="Google">
+// <copyright file="ARController.cs" company="Google">
+//
+// Based off of the HelloARController.cs file.
 //
 // Copyright 2017 Google Inc. All Rights Reserved.
 //
@@ -18,16 +20,16 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace GoogleARCore.Battlerock
+namespace GoogleARCore.Experiments
 {
     using System.Collections.Generic;
     using GoogleARCore;
     using UnityEngine;
-    using UnityEngine.Rendering;
+
+    using Battlerock;
 
 #if UNITY_EDITOR
     using Input = InstantPreviewInput;
-    using GoogleARCore.HelloAR;
 #endif
 
     /// <summary>
@@ -61,10 +63,6 @@ namespace GoogleARCore.Battlerock
         /// </summary>
         public GameObject SearchingForPlaneUI;
 
-        /// <summary>
-        /// Anchor point used by the player.
-        /// </summary>
-        public Anchor anchor;
         #endregion
 
         #region Private Variables
@@ -86,9 +84,15 @@ namespace GoogleARCore.Battlerock
         private bool m_IsQuitting = false;
         #endregion
 
-        #region Unity Methods
+        #region Unity Methods   
+        /// <summary>
+        /// Unity's built-in method (Called before anything else)
+        /// </summary>
+        private void Awake()
+        {
+            Instance = this;
+        }
 
-        
         /// <summary>
         /// The Unity Update() method.
         /// </summary>
@@ -125,7 +129,7 @@ namespace GoogleARCore.Battlerock
                 // coordinates.
                 GameObject planeObject = Instantiate(TrackedPlanePrefab, Vector3.zero, Quaternion.identity,
                     transform);
-                planeObject.GetComponent<TrackedPlaneVisualizer>().Initialize(m_NewPlanes[i]);
+                planeObject.GetComponent<GoogleARCore.HelloAR.TrackedPlaneVisualizer>().Initialize(m_NewPlanes[i]);
             }
 
             // Disable the snackbar UI when no planes are valid.
@@ -154,27 +158,30 @@ namespace GoogleARCore.Battlerock
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                 TrackableHitFlags.FeaturePointWithSurfaceNormal;
 
-            if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
+            if (MultiplayerManager.Instance.anchor == null)
             {
-                var andyObject = Instantiate(AndyAndroidPrefab, hit.Pose.position, hit.Pose.rotation);
-
-                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                // world evolves.
-                var anchor = hit.Trackable.CreateAnchor(hit.Pose);
-
-                // Andy should look at the camera but still be flush with the plane.
-                if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
+                if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
                 {
-                    // Get the camera position and match the y-component with the hit position.
-                    Vector3 cameraPositionSameY = FirstPersonCamera.transform.position;
-                    cameraPositionSameY.y = hit.Pose.position.y;
+                    var andyObject = PhotonNetwork.Instantiate(AndyAndroidPrefab.name, hit.Pose.position, hit.Pose.rotation, 0);
 
-                    // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
-                    andyObject.transform.LookAt(cameraPositionSameY, andyObject.transform.up);
+                    // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                    // world evolves.
+                    MultiplayerManager.Instance.anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+                    // Andy should look at the camera but still be flush with the plane.
+                    if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
+                    {
+                        // Get the camera position and match the y-component with the hit position.
+                        Vector3 cameraPositionSameY = FirstPersonCamera.transform.position;
+                        cameraPositionSameY.y = hit.Pose.position.y;
+
+                        // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
+                        andyObject.transform.LookAt(cameraPositionSameY, andyObject.transform.up);
+                    }
+
+                    // Make Andy model a child of the anchor.
+                    andyObject.transform.parent = MultiplayerManager.Instance.anchor.transform;
                 }
-
-                // Make Andy model a child of the anchor.
-                andyObject.transform.parent = anchor.transform;
             }
         }
         #endregion
