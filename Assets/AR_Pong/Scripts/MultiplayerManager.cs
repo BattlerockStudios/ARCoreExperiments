@@ -79,7 +79,7 @@ namespace Battlerock
 
         private void Update()
         {
-            UpdatePlayerTexts();
+            UpdatePlayerInfo();
         }
         #endregion
 
@@ -97,7 +97,7 @@ namespace Battlerock
             SceneManager.LoadScene(LEVEL.PongLauncher.ToString());
         }
 
-        private void UpdatePlayerTexts()
+        private void UpdatePlayerInfo()
         {
             if (SceneManager.GetActiveScene().buildIndex != (int)NetworkSettings.Instance.level) return;
 
@@ -106,13 +106,23 @@ namespace Battlerock
 
             if (m_localPlayer != null)
             {
+                //player is initiliazed set starting score and color
                 if (LocalPlayerText == null)
                 {
                     LocalPlayerText = GameObject.FindWithTag("LocalText").GetComponent<UnityEngine.UI.Text>();
                     LocalPlayerText.color = new Color(m_localPlayer.GetColor().x, m_localPlayer.GetColor().y, m_localPlayer.GetColor().z);
-
-                    m_localPlayer.SetScore(0);
+                    m_localPlayer.SetScore(5);
                     localColor = new Color(m_localPlayer.GetColor().x, m_localPlayer.GetColor().y, m_localPlayer.GetColor().z);
+                }
+
+                //winning condition
+                if (m_localPlayer.GetScore() > 1)
+                {
+                    GameObject.Find("Loser Panel").SetActive(true);
+                }
+                if (m_otherPlayer.GetScore() > 1)
+                {
+                    GameObject.Find("Winner Panel").SetActive(true);
                 }
 
                 // should be this format: "YOU   00"
@@ -122,12 +132,12 @@ namespace Battlerock
 
             if (m_otherPlayer != null)
             {
+                //player is initiliazed set starting score and color
                 if (RemotePlayerText == null)
                 {
                     RemotePlayerText = GameObject.FindWithTag("RemoteText").GetComponent<UnityEngine.UI.Text>();
-
                     RemotePlayerText.color = new Color(m_otherPlayer.GetColor().x, m_otherPlayer.GetColor().y, m_otherPlayer.GetColor().z);
-                    m_otherPlayer.SetScore(0);
+                    m_otherPlayer.SetScore(5);
                     otherColor = new Color(m_otherPlayer.GetColor().x, m_otherPlayer.GetColor().y, m_otherPlayer.GetColor().z);
                 }
 
