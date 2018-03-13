@@ -102,6 +102,8 @@ namespace Battlerock
             if (m_currentPuck != null)
             {
                 m_currentPuck.transform.position = Vector3.zero;
+                m_currentPuck.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                m_currentPuck.GetComponent<Puck>().AddRandomForce(Random.Range(0, 2));
             }
         }
         #endregion

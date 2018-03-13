@@ -62,12 +62,15 @@
         }
         #endregion
 
-        #region Private Methods
-        private void AddRandomForce(int value)
+        #region Public Methods
+        public void AddRandomForce(int value)
         {
             Vector3 force = value < 1 ? Vector3.forward : Vector3.back;
             m_rigidbody.AddForce(force * speed, ForceMode.Impulse);
         }
+        #endregion
+
+        #region Private Methods
 
         /// <summary>
         /// Updates the color across the network so all players can see which color the other players are.
