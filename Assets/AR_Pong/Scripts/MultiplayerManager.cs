@@ -116,9 +116,10 @@ namespace Battlerock
                 }
 
                 //winning condition
-                if (m_localPlayer.GetScore() < 1)
+                if (m_localPlayer.GetScore() <= 0)
                 {
                     GameObject.Find("Loser Panel").SetActive(true);
+                    m_localPlayer.SetScore(0);
                 }
 
                 // should be this format: "YOU   00"
@@ -138,9 +139,10 @@ namespace Battlerock
                 }
 
                 //winning condition
-                if (m_otherPlayer.GetScore() < 1)
+                if (m_otherPlayer.GetScore() <= 0)
                 {
                     GameObject.Find("Winner Panel").SetActive(true);
+                    m_otherPlayer.SetScore(0);
                 }
 
                 // should be this format: "name        00"
