@@ -146,9 +146,8 @@ namespace Battlerock
                 // should be this format: "name        00"
                 this.RemotePlayerText.text = "-. " + m_otherPlayer.GetScore().ToString() + " .- " + m_otherPlayer.NickName;
             }
-
-
         }
+
         #endregion
     }
 }
