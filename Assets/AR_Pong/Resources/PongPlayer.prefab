@@ -495,8 +495,8 @@ MonoBehaviour:
   - {fileID: 114128731806225956}
   - {fileID: 114601957826352792}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 4
+  instantiationId: 4
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114819913872427126
@@ -621,7 +621,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1971451078693796}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 9e7c585fd5115874098e757efaa538b5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.12
@@ -647,11 +647,11 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1971451078693796}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 9e7c585fd5115874098e757efaa538b5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.1
-  m_Height: 1.35
+  m_Height: 1.45
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0.01}
 --- !u!136 &136776818773078346
@@ -660,7 +660,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1971451078693796}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 9e7c585fd5115874098e757efaa538b5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.12
