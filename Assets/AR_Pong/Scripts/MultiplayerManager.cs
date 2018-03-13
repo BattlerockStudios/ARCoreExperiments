@@ -116,17 +116,13 @@ namespace Battlerock
                 }
 
                 //winning condition
-                if (m_localPlayer.GetScore() > 1)
+                if (m_localPlayer.GetScore() < 1)
                 {
                     GameObject.Find("Loser Panel").SetActive(true);
                 }
-                if (m_otherPlayer.GetScore() > 1)
-                {
-                    GameObject.Find("Winner Panel").SetActive(true);
-                }
 
                 // should be this format: "YOU   00"
-                this.LocalPlayerText.text = m_localPlayer.NickName + " | " + m_localPlayer.GetScore().ToString() + "| ";
+                this.LocalPlayerText.text = m_localPlayer.NickName + " -. " + m_localPlayer.GetScore().ToString() + " .-";
 
             }
 
@@ -141,8 +137,14 @@ namespace Battlerock
                     otherColor = new Color(m_otherPlayer.GetColor().x, m_otherPlayer.GetColor().y, m_otherPlayer.GetColor().z);
                 }
 
+                //winning condition
+                if (m_otherPlayer.GetScore() < 1)
+                {
+                    GameObject.Find("Winner Panel").SetActive(true);
+                }
+
                 // should be this format: "name        00"
-                this.RemotePlayerText.text = "| " + m_otherPlayer.GetScore().ToString() + " | " + m_otherPlayer.NickName;
+                this.RemotePlayerText.text = "-. " + m_otherPlayer.GetScore().ToString() + " .- " + m_otherPlayer.NickName;
             }
         }
 
