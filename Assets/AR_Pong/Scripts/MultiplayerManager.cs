@@ -144,14 +144,9 @@ namespace Battlerock
                 }
 
                 //winning condition
-                if (m_otherPlayer.GetScore() <= 0)
+                if (m_otherPlayer.GetScore() >= 10)
                 {
                     SpawnManager.Instance.loserPanel.SetActive(true);
-                    m_otherPlayer.SetScore(0);
-                }
-                else if (m_otherPlayer.GetScore() >= 10)
-                {
-                    SpawnManager.Instance.winnerPanel.SetActive(true);
                     m_otherPlayer.SetScore(10);
                 }
 
