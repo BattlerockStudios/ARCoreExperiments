@@ -123,7 +123,7 @@ namespace Battlerock
                 }
 
                 // should be this format: "YOU   00"
-                this.LocalPlayerText.text = m_localPlayer.NickName + " -. " + m_localPlayer.GetScore().ToString() + " .-";
+                this.LocalPlayerText.text = m_localPlayer.NickName + " _" + m_localPlayer.GetScore().ToString() + "_|";
 
             }
 
@@ -146,7 +146,7 @@ namespace Battlerock
                 }
 
                 // should be this format: "name        00"
-                this.RemotePlayerText.text = "-. " + m_otherPlayer.GetScore().ToString() + " .- " + m_otherPlayer.NickName;
+                this.RemotePlayerText.text = "|_" + m_otherPlayer.GetScore().ToString() + "_ " + m_otherPlayer.NickName;
             }
         }
 
