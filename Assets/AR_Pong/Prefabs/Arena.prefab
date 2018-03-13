@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 65288407689011326}
   - component: {fileID: 65533985056581808}
   - component: {fileID: 54483880655013334}
+  - component: {fileID: 114634023462273626}
   m_Layer: 0
   m_Name: Arena
   m_TagString: Untagged
@@ -535,6 +536,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   location: {fileID: 0}
   isOccupied: 0
+--- !u!114 &114634023462273626
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1307112288854488}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c483c29622c014997a1a538d1bba81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114797901944590528
 MonoBehaviour:
   m_ObjectHideFlags: 1

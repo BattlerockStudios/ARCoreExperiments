@@ -7,6 +7,8 @@
     {
         #region Public Variables
         public float speed = 10f;
+
+        public float velocityModifier = .01f;
         #endregion
 
         #region Private Variables
@@ -24,14 +26,14 @@
         {
             if (collision.gameObject.tag == "Player")
             {
-                ContactPoint cp = collision.contacts[0];
+                //ContactPoint cp = collision.contacts[0];
 
                 // calculate with Vector3.Reflect
-                m_rigidbody.velocity = Vector3.Reflect(m_rigidbody.velocity, cp.normal);
+                //m_rigidbody.velocity = Vector3.Reflect(m_rigidbody.velocity, cp.normal);
 
                 // bumper effect to speed up ball
                 //[Adam] this looks like it should work, however I have a gut feeling that it is driving the puck into the player with more speed
-                //m_rigidbody.velocity += cp.normal * speed;
+                m_rigidbody.velocity *= velocityModifier;
             }
 
             if (photonView.isMine == true)

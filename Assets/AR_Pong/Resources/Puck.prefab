@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  velocityModifier: 1.01
 --- !u!114 &114527823061431948
 MonoBehaviour:
   m_ObjectHideFlags: 1
