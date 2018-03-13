@@ -60,8 +60,15 @@
                 }
             }
         }
-
         #endregion
+
+        #region Public Methods
+        public void Reset()
+        {
+            transform.position = Vector3.zero;
+        }
+        #endregion
+
 
         #region Private Methods
         private void AddRandomForce(int value)

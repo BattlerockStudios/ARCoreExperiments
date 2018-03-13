@@ -14,6 +14,8 @@ namespace Battlerock
         public Transform puckSpawnPoint;
 
         public static SpawnManager Instance;
+
+        public GameObject currentPuck;
         #endregion
 
         #region Private Variables
@@ -91,8 +93,8 @@ namespace Battlerock
 
         public void SpawnPuck(Transform parent = null)
         {
-            GameObject obj = PhotonNetwork.Instantiate(puck.name, puckSpawnPoint.position, Quaternion.identity, 0);
-            obj.transform.parent = parent;
+            currentPuck = PhotonNetwork.Instantiate(puck.name, puckSpawnPoint.position, Quaternion.identity, 0);
+            currentPuck.transform.parent = parent;
             _GameManager.Instance.gameMode = GameMode.Playing;
         }
         #endregion
