@@ -1525,6 +1525,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 65137588584333564, guid: 5a83e8b7832a0ce40a66db9648519591,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65288407689011326, guid: 5a83e8b7832a0ce40a66db9648519591,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65533985056581808, guid: 5a83e8b7832a0ce40a66db9648519591,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a83e8b7832a0ce40a66db9648519591, type: 2}
   m_IsPrefabParent: 0
@@ -1754,6 +1769,11 @@ Prefab:
     - target: {fileID: 114674284584283854, guid: 79d112f16e4ac204e9ba413a9fbd2f84,
         type: 2}
       propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114674284584283854, guid: 79d112f16e4ac204e9ba413a9fbd2f84,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 33196340608694486, guid: 79d112f16e4ac204e9ba413a9fbd2f84,
