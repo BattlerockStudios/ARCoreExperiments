@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44300628, g: 0.4921953, b: 0.57192475, a: 1}
+  m_IndirectSpecularColor: {r: 0.44300637, g: 0.4921953, b: 0.5719249, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1444,6 +1444,16 @@ Prefab:
       propertyPath: puckSpawnPoint
       value: 
       objectReference: {fileID: 1720111312}
+    - target: {fileID: 114315208635634780, guid: d59807e6e67b7ab40a13803be715dd18,
+        type: 2}
+      propertyPath: winnerPanel
+      value: 
+      objectReference: {fileID: 531198004}
+    - target: {fileID: 114315208635634780, guid: d59807e6e67b7ab40a13803be715dd18,
+        type: 2}
+      propertyPath: loserPanel
+      value: 
+      objectReference: {fileID: 964972844}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d59807e6e67b7ab40a13803be715dd18, type: 2}
   m_IsPrefabParent: 0
@@ -1897,7 +1907,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4953305710174806, guid: 9bab5fedc67b2614599ad2d1b5c88955, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 10.805369
+      value: 5.493493
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9bab5fedc67b2614599ad2d1b5c88955, type: 2}

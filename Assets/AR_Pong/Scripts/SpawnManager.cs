@@ -14,6 +14,10 @@ namespace Battlerock
         public Transform puckSpawnPoint;
 
         public static SpawnManager Instance;
+
+
+        public GameObject winnerPanel;
+        public GameObject loserPanel;
         #endregion
 
         #region Private Variables
