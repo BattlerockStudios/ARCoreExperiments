@@ -118,8 +118,13 @@ namespace Battlerock
                 //winning condition
                 if (m_localPlayer.GetScore() <= 0)
                 {
-                    GameObject.Find("Loser Panel").SetActive(true);
+                    SpawnManager.Instance.loserPanel.SetActive(true);
                     m_localPlayer.SetScore(0);
+                }
+                else if (m_localPlayer.GetScore() >= 10)
+                {
+                    SpawnManager.Instance.winnerPanel.SetActive(true);
+                    m_localPlayer.SetScore(10);
                 }
 
                 // should be this format: "YOU   00"
@@ -141,8 +146,13 @@ namespace Battlerock
                 //winning condition
                 if (m_otherPlayer.GetScore() <= 0)
                 {
-                    GameObject.Find("Winner Panel").SetActive(true);
+                    SpawnManager.Instance.winnerPanel.SetActive(true);
                     m_otherPlayer.SetScore(0);
+                }
+                else if (m_otherPlayer.GetScore() >= 10)
+                {
+                    SpawnManager.Instance.loserPanel.SetActive(true);
+                    m_otherPlayer.SetScore(10);
                 }
 
                 // should be this format: "name        00"
