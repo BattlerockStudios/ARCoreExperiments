@@ -25,16 +25,15 @@ namespace GoogleARCore.HelloAR
     using UnityEngine;
     using UnityEngine.Rendering;
 
+#if UNITY_EDITOR
+    using Input = InstantPreviewInput;
+#endif
+
     /// <summary>
     /// Controls the HelloAR example.
     /// </summary>
     public class HelloARController : MonoBehaviour
     {
-        /// <summary>
-        /// Instance of this script.
-        /// </summary>
-        public static HelloARController Instance;
-
         /// <summary>
         /// The first-person camera being used to render the passthrough camera image (i.e. AR background).
         /// </summary>
@@ -49,11 +48,6 @@ namespace GoogleARCore.HelloAR
         /// A model to place when a raycast from a user touch hits a plane.
         /// </summary>
         public GameObject AndyAndroidPrefab;
-
-        /// <summary>
-        /// A model to place when a raycast from a user touch hits a plane.
-        /// </summary>
-        public GameObject CampsitePrefab;
 
         /// <summary>
         /// A gameobject parenting UI for displaying the "searching for planes" snackbar.
@@ -78,24 +72,6 @@ namespace GoogleARCore.HelloAR
         private bool m_IsQuitting = false;
 
         /// <summary>
-        /// We only want ONE character spawned. So, we need to make a check for that.
-        /// </summary>
-        private bool m_hasCharacterBeenSpawned = false;
-
-        /// <summary>
-        /// Anchor point used by the player.
-        /// </summary>
-        public Anchor anchor;
-
-        /// <summary>
-        /// Unity built-in method (called before any other method).
-        /// </summary>
-        private void Awake()
-        {
-            Instance = this;
-        }
-
-        /// <summary>
         /// The Unity Update() method.
         /// </summary>
         public void Update()
@@ -108,17 +84,22 @@ namespace GoogleARCore.HelloAR
             _QuitOnConnectionErrors();
 
             // Check that motion tracking is tracking.
-            if (Frame.TrackingState != TrackingState.Tracking)
+            if (Session.Status != SessionStatus.Tracking)
             {
                 const int lostTrackingSleepTimeout = 15;
                 Screen.sleepTimeout = lostTrackingSleepTimeout;
+                if (!m_IsQuitting && Session.Status.IsValid())
+                {
+                    SearchingForPlaneUI.SetActive(true);
+                }
+
                 return;
             }
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             // Iterate over planes found in this frame and instantiate corresponding GameObjects to visualize them.
-            Frame.GetPlanes(m_NewPlanes, TrackableQueryFilter.New);
+            Session.GetTrackables<TrackedPlane>(m_NewPlanes, TrackableQueryFilter.New);
             for (int i = 0; i < m_NewPlanes.Count; i++)
             {
                 // Instantiate a plane visualization prefab and set it to track the new plane. The transform is set to
@@ -127,12 +108,10 @@ namespace GoogleARCore.HelloAR
                 GameObject planeObject = Instantiate(TrackedPlanePrefab, Vector3.zero, Quaternion.identity,
                     transform);
                 planeObject.GetComponent<TrackedPlaneVisualizer>().Initialize(m_NewPlanes[i]);
-
-                
             }
 
             // Disable the snackbar UI when no planes are valid.
-            Frame.GetPlanes(m_AllPlanes);
+            Session.GetTrackables<TrackedPlane>(m_AllPlanes);
             bool showSearchingUI = true;
             for (int i = 0; i < m_AllPlanes.Count; i++)
             {
@@ -145,26 +124,39 @@ namespace GoogleARCore.HelloAR
 
             SearchingForPlaneUI.SetActive(showSearchingUI);
 
-            CheckIfPlayerHasBeenSpawned();
-        }
-
-        private void CheckIfPlayerHasBeenSpawned()
-        {
-            if (m_hasCharacterBeenSpawned == false)
+            // If the player has not touched the screen, we are done with this update.
+            Touch touch;
+            if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
             {
-                // If the player has not touched the screen, we are done with this update.
-                Touch touch;
-                if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
+                return;
+            }
+
+            // Raycast against the location the player touched to search for planes.
+            TrackableHit hit;
+            TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
+                TrackableHitFlags.FeaturePointWithSurfaceNormal;
+
+            if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
+            {
+                var andyObject = Instantiate(AndyAndroidPrefab, hit.Pose.position, hit.Pose.rotation);
+
+                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                // world evolves.
+                var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+                // Andy should look at the camera but still be flush with the plane.
+                if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
                 {
-                    return;
+                    // Get the camera position and match the y-component with the hit position.
+                    Vector3 cameraPositionSameY = FirstPersonCamera.transform.position;
+                    cameraPositionSameY.y = hit.Pose.position.y;
+
+                    // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
+                    andyObject.transform.LookAt(cameraPositionSameY, andyObject.transform.up);
                 }
 
-                AndyAndroidPrefab.Create(touch);
-                CampsitePrefab.Create(touch, Vector3.forward*2);
-
-
-                m_hasCharacterBeenSpawned = true;
-                ProceduralSpawner.Instance.canBeginSpawning = true;
+                // Make Andy model a child of the anchor.
+                andyObject.transform.parent = anchor.transform;
             }
         }
 
@@ -179,24 +171,24 @@ namespace GoogleARCore.HelloAR
             }
 
             // Quit if ARCore was unable to connect and give Unity some time for the toast to appear.
-            if (Session.ConnectionState == SessionConnectionState.UserRejectedNeededPermission)
+            if (Session.Status == SessionStatus.ErrorPermissionNotGranted)
             {
                 _ShowAndroidToastMessage("Camera permission is needed to run this application.");
                 m_IsQuitting = true;
-                Invoke("DoQuit", 0.5f);
+                Invoke("_DoQuit", 0.5f);
             }
-            else if (Session.ConnectionState == SessionConnectionState.ConnectToServiceFailed)
+            else if (Session.Status.IsError())
             {
                 _ShowAndroidToastMessage("ARCore encountered a problem connecting.  Please start the app again.");
                 m_IsQuitting = true;
-                Invoke("DoQuit", 0.5f);
+                Invoke("_DoQuit", 0.5f);
             }
         }
 
         /// <summary>
         /// Actually quit the application.
         /// </summary>
-        private void DoQuit()
+        private void _DoQuit()
         {
             Application.Quit();
         }

@@ -51,7 +51,6 @@ namespace GoogleARCore.HelloAR
         };
 
         private TrackedPlane m_TrackedPlane;
-        private MeshCollider m_meshCollider;
 
         // Keep previous frame's mesh polygon to avoid mesh update every frame.
         private List<Vector3> m_PreviousFrameMeshVertices = new List<Vector3>();
@@ -72,8 +71,7 @@ namespace GoogleARCore.HelloAR
         public void Awake()
         {
             m_Mesh = GetComponent<MeshFilter>().mesh;
-            m_MeshRenderer = GetComponent<MeshRenderer>();
-            m_meshCollider = gameObject.AddComponent<MeshCollider>();
+            m_MeshRenderer = GetComponent<UnityEngine.MeshRenderer>();
         }
 
         /// <summary>
@@ -90,15 +88,13 @@ namespace GoogleARCore.HelloAR
                 Destroy(gameObject);
                 return;
             }
-            else if (Frame.TrackingState != TrackingState.Tracking)
+            else if (m_TrackedPlane.TrackingState != TrackingState.Tracking)
             {
-                m_MeshRenderer.enabled = false;
-                m_meshCollider.enabled = false;
-                return;
+                 m_MeshRenderer.enabled = false;
+                 return;
             }
 
             m_MeshRenderer.enabled = true;
-            m_meshCollider.enabled = true;
 
             _UpdateMeshIfNeeded();
         }
@@ -112,6 +108,7 @@ namespace GoogleARCore.HelloAR
             m_TrackedPlane = plane;
             m_MeshRenderer.material.SetColor("_GridColor", k_PlaneColors[s_PlaneCount++ % k_PlaneColors.Length]);
             m_MeshRenderer.material.SetFloat("_UvRotation", Random.Range(0.0f, 360.0f));
+
             Update();
         }
 
@@ -130,7 +127,7 @@ namespace GoogleARCore.HelloAR
             m_PreviousFrameMeshVertices.Clear();
             m_PreviousFrameMeshVertices.AddRange(m_MeshVertices);
 
-            m_PlaneCenter = m_TrackedPlane.Position;
+            m_PlaneCenter = m_TrackedPlane.CenterPose.position;
 
             int planePolygonCount = m_MeshVertices.Count;
 
@@ -162,7 +159,6 @@ namespace GoogleARCore.HelloAR
             for (int i = 0; i < planePolygonCount; ++i)
             {
                 Vector3 v = m_MeshVertices[i];
-                ProceduralSpawner.Instance.InitializeObject(v);
 
                 // Vector from plane center to current point
                 Vector3 d = v - m_PlaneCenter;
@@ -207,9 +203,6 @@ namespace GoogleARCore.HelloAR
             m_Mesh.SetVertices(m_MeshVertices);
             m_Mesh.SetIndices(m_MeshIndices.ToArray(), MeshTopology.Triangles, 0);
             m_Mesh.SetColors(m_MeshColors);
-
-            m_meshCollider.sharedMesh = null;
-            m_meshCollider.sharedMesh = m_Mesh;
         }
 
         private bool _AreVerticesListsEqual(List<Vector3> firstList, List<Vector3> secondList)

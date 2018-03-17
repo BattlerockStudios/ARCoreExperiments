@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33340294062673050}
   - component: {fileID: 23646549736039258}
   - component: {fileID: 114776205485222536}
-  - component: {fileID: 114557515589300246}
   m_Layer: 0
   m_Name: TrackedPlaneVisualizer
   m_TagString: Untagged
@@ -37,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1654175882956584}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.835, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -57,7 +56,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 803693aece80a6d4eb3195f138746a7f, type: 2}
   - {fileID: 2100000, guid: 92b1ca249edc047509db2c7bc05789ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -85,17 +83,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1654175882956584}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114557515589300246
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1654175882956584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114776205485222536
 MonoBehaviour:
   m_ObjectHideFlags: 1
