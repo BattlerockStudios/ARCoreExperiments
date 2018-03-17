@@ -8,6 +8,11 @@ TagManager:
   - Bobber
   - EncyclopediaSlot
   - Text
+  - UI
+  - P1_Goal
+  - P2_Goal
+  - LocalText
+  - RemoteText
   layers:
   - Default
   - TransparentFX
@@ -19,10 +24,10 @@ TagManager:
   - 
   - Test
   - Player
-  - 
-  - 
-  - 
-  - 
+  - Interactable
+  - Goal
+  - InControl
+  - PlayerWall
   - 
   - 
   - 
