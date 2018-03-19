@@ -9,15 +9,15 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Private Variables
-    [SerializeField] private Stats _stats;
-    private Animator _animator;
+    [SerializeField] private Stats m_stats;
+    private Animator m_animator;
     private NavMeshAgent m_agent;
     #endregion
 
     #region Private Methods
     private void Start()
     {
-        _animator = GetComponentInChildren<Animator>();
+        m_animator = GetComponentInChildren<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
         text = GameObject.FindWithTag("Text").GetComponent<UnityEngine.UI.Text>();
     }
@@ -30,13 +30,13 @@ public class Player : MonoBehaviour
             if (m_agent.remainingDistance <= m_agent.stoppingDistance && m_agent.remainingDistance != Mathf.Infinity && m_agent.remainingDistance != 0 && m_agent.pathPending == false)
             {
                 //animate the player to walk/run
-                _animator.SetFloat("Movement", 0);
+                m_animator.SetFloat("Movement", 0);
                 text.text = "<color=red>AGENT STOPPED</color>";
             }
             else
             {
                 //animate the player to walk/run
-                _animator.SetFloat("Movement", m_agent.speed);
+                m_animator.SetFloat("Movement", m_agent.speed);
                 text.text = "<color=green>AGENT MOVING</color>";
             }
         }

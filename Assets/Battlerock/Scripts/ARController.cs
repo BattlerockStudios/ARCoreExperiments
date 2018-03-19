@@ -55,7 +55,7 @@ namespace GoogleARCore.Battlerock
         /// <summary>
         /// A model to place when a raycast from a user touch hits a plane.
         /// </summary>
-        public GameObject AndyAndroidPrefab;
+        public GameObject PlayerPrefab;
 
         /// <summary>
         /// A gameobject parenting UI for displaying the "searching for planes" snackbar.
@@ -157,7 +157,7 @@ namespace GoogleARCore.Battlerock
 
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
-                var andyObject = Instantiate(AndyAndroidPrefab, hit.Pose.position, hit.Pose.rotation);
+                var playerObject = Instantiate(PlayerPrefab, hit.Pose.position, hit.Pose.rotation);
 
                 // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
                 // world evolves.
@@ -171,11 +171,11 @@ namespace GoogleARCore.Battlerock
                     cameraPositionSameY.y = hit.Pose.position.y;
 
                     // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
-                    andyObject.transform.LookAt(cameraPositionSameY, andyObject.transform.up);
+                    playerObject.transform.LookAt(cameraPositionSameY, playerObject.transform.up);
                 }
 
                 // Make Andy model a child of the anchor.
-                andyObject.transform.parent = anchor.transform;
+                playerObject.transform.parent = anchor.transform;
             }
         }
         #endregion
