@@ -24,10 +24,11 @@ namespace GoogleARCore.Battlerock
     using GoogleARCore;
     using UnityEngine;
     using UnityEngine.Rendering;
+    using GoogleARCore.HelloAR;
 
 #if UNITY_EDITOR
     using Input = InstantPreviewInput;
-    using GoogleARCore.HelloAR;
+
 #endif
 
     /// <summary>
