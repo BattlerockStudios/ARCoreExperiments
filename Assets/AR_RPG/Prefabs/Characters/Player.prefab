@@ -1064,11 +1064,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 0}
-  _stats:
+  m_stats:
     Speed: 5
-    JumpSpeed: 100
-    RotateSpeed: 1800
-    Gravity: 5
+    JumpSpeed: 5
+    RotateSpeed: 100
+    Gravity: 1
     MaxSpeed: 10
     MinSpeed: 5
 --- !u!137 &137446283542985510

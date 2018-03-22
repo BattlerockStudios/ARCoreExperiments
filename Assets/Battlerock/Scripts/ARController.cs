@@ -85,6 +85,8 @@ namespace GoogleARCore.Battlerock
         /// True if the app is in the process of quitting due to an ARCore connection error, otherwise false.
         /// </summary>
         private bool m_IsQuitting = false;
+
+        private GameObject m_spawnedPlayer;
         #endregion
 
         #region Unity Methods
@@ -157,25 +159,28 @@ namespace GoogleARCore.Battlerock
 
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
-                var playerObject = Instantiate(PlayerPrefab, hit.Pose.position, hit.Pose.rotation);
-
-                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                // world evolves.
-                var anchor = hit.Trackable.CreateAnchor(hit.Pose);
-
-                // Andy should look at the camera but still be flush with the plane.
-                if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
+                if (m_spawnedPlayer == null)
                 {
-                    // Get the camera position and match the y-component with the hit position.
-                    Vector3 cameraPositionSameY = FirstPersonCamera.transform.position;
-                    cameraPositionSameY.y = hit.Pose.position.y;
+                    m_spawnedPlayer = Instantiate(PlayerPrefab, hit.Pose.position, hit.Pose.rotation);
 
-                    // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
-                    playerObject.transform.LookAt(cameraPositionSameY, playerObject.transform.up);
+                    // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                    // world evolves.
+                    var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+                    // Andy should look at the camera but still be flush with the plane.
+                    if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
+                    {
+                        // Get the camera position and match the y-component with the hit position.
+                        Vector3 cameraPositionSameY = FirstPersonCamera.transform.position;
+                        cameraPositionSameY.y = hit.Pose.position.y;
+
+                        // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
+                        m_spawnedPlayer.transform.LookAt(cameraPositionSameY, m_spawnedPlayer.transform.up);
+                    }
+
+                    // Make Andy model a child of the anchor.
+                    m_spawnedPlayer.transform.parent = anchor.transform;
                 }
-
-                // Make Andy model a child of the anchor.
-                playerObject.transform.parent = anchor.transform;
             }
         }
         #endregion
