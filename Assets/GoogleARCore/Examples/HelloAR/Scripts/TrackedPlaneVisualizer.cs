@@ -65,6 +65,8 @@ namespace GoogleARCore.HelloAR
 
         private MeshRenderer m_MeshRenderer;
 
+        public GameObject tile;
+
         /// <summary>
         /// The Unity Awake() method.
         /// </summary>
@@ -164,7 +166,7 @@ namespace GoogleARCore.HelloAR
                 Vector3 d = v - m_PlaneCenter;
 
                 float scale = 1.0f - Mathf.Min(featherLength / d.magnitude, featherScale);
-                m_MeshVertices.Add((scale * d) + m_PlaneCenter);
+                m_MeshVertices.Add((scale * d) + m_PlaneCenter);               
 
                 m_MeshColors.Add(Color.white);
             }
